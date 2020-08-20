@@ -1,29 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2020/08/14/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>第一篇博客</title>
     <url>/2020/08/15/My-New-Post/</url>
     <content><![CDATA[<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>有的人可能18岁就搭了自己的博客，而有的人在26岁的时候才搭上，不管怎样，只要开始就是好的吧。</p>
 <p>打算就是在这个博客了记录一下遇到的技术问题，分享一些总结到的知识。主要是有利于自己巩固知识，因为只有输出了才是自己的，如果还能有幸帮助到别人也是很好的。</p>
 <p>靡不有初鲜克有终。</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>有关TCP的常见问题</title>
+    <url>/2020/08/20/%E6%9C%89%E5%85%B3TCP%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h1><h2 id="三次挥手的目的"><a href="#三次挥手的目的" class="headerlink" title="三次挥手的目的"></a>三次挥手的目的</h2><ul>
+<li>建立可靠的通信信道，让双方都确定自己与对方的发送和接收是正常的。</li>
+<li>防止失效的连接请求到达服务器，让服务器错误打开连接。</li>
+</ul>
+<h2 id="三次挥手的过程"><a href="#三次挥手的过程" class="headerlink" title="三次挥手的过程"></a>三次挥手的过程</h2><img src="/images/blog/tcp/handshake.jpg" alt="Image" style="zoom: 50%;" />
+
+<ol>
+<li><p>第一次握手：服务端确认客户端的发送功能，自己的接收功能。SYN=1，初始序号SEQ=x</p>
+</li>
+<li><p>第二次握手：客户端确认自己的发送、接收功能，服务端的发送、接收功能。SYN=1，确认号ACK=x+1，同时也选择一个初始序号SEQ=y</p>
+</li>
+<li><p>第三次握手：服务端确认自己的发送功能，客户端的接收功能。确认号ACK=y+1，序号为SEQ=x+1</p>
+</li>
+</ol>
+<p>为什么要传回SYN：接收端传回发送端所发送的SYN是为了告诉发送端，我接受到的信息确实是你所发送的信号，而不是别人的。</p>
+<h1 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h1><img src="/images/blog/tcp/wave.jpg" alt="Image" style="zoom: 67%;" />
+
+<ul>
+<li>客户端-发送连接释放报文FIN，用来关闭客户端到服务器的数据传送，FIN=1，初始序号SEQ=u</li>
+<li>服务器-收到这个 FIN，它发回一个确认ACK，此时<strong>TCP处于半关闭状态（CLOSE-WAIT），B能向A发数据但A不能向B发数据</strong>。确认号ACK=u+1，同时也初始一个序号SEQ=v</li>
+<li>当服务器不再需要发送数据时，发送释放连接报文FIN。FIN=1，ACK=u+1，序号SEQ=w</li>
+<li>客户端-发回 ACK 报文确认，进入<strong>TIME-WAIT状态，等待2倍的MSL（最大报文存活时间 Maximum Segment Lifetime）后释放连接</strong>。确认号ACK=w+1，序号u+1</li>
+<li>服务器收到ACK后释放连接。</li>
+</ul>
+<p>为什么要有TIME-WAIT状态，而不是直接进入CLOSED状态：</p>
+<ul>
+<li>确保最后一个确认报文ACK能够到达服务端，如果服务端没有收到客户端的ACK报文，最需要重新发送连接释放请求报文FIN，即重新来过。客户端等待的2倍MSL时间就是为了处理这种情况的发生。</li>
+<li>等待时间是为了让本次连接持续时间内产生的所有报文都从网络中消失，使得下一次新的连接不会出现旧的连接请求报文SYN，从而错误打开连接。</li>
+</ul>
+<h1 id="TCP流量控制-Flow-Control"><a href="#TCP流量控制-Flow-Control" class="headerlink" title="TCP流量控制(Flow Control)"></a>TCP流量控制(Flow Control)</h1><p> <strong>流量控制是为了控制发送方发送速率，保证接收方来得及接收</strong>。</p>
+<ul>
+<li>TCP连接的每一方都有固定大小的缓冲空间，TCP的接收端只允许发送端发送接收端缓冲区能够接纳的数据。当接收方来不及处理发送方的数据，能提示发送方降低发送的速率，防止包丢失。</li>
+<li>接收方发送的<strong>确认报文中的窗口字段</strong>可以用来控制发送方窗口的大小，从而影响发送方的发送速率。如果将窗口字段设置成0，则发送方不能发送数据。接收窗口只会对窗口内最后一个按序到达的字节进行确认，例如接收窗口已经收到的字节为 {31, 34, 35}，其中 {31} 按序到达，而 {34, 35} 就不是，因此只对字节 31 进行确认。发送方得到一个字节的确认之后，就知道这个字节之前的所有字节都已经被接收。</li>
+</ul>
+<img src="/images/blog/tcp/slide_window.jpg" alt="Image" style="zoom: 67%;" />
+
+
+
+<h1 id="TCP拥塞控制-Congestion-Control"><a href="#TCP拥塞控制-Congestion-Control" class="headerlink" title="TCP拥塞控制(Congestion Control)"></a>TCP拥塞控制(Congestion Control)</h1><p><strong>慢启动（slow start）和拥塞避免（Congestion Avoidance）：</strong></p>
+<p>发动的最初执行<strong>慢开始</strong>，<strong>令拥塞窗口cwnd=1 (congestion window)**，发送方只能发送1个报文段；</strong>当收到ACK确认后，将cwnd加倍<strong>，因此之后发送方能够发送的报文段数量为2,4,8,…..由于指数增长的非常快，网络拥塞的可能性也就很高。设置一个</strong>慢开始门限ssthresh，当swnd&gt;=ssthresh时，进入拥塞避免，每个轮次只将cwnd加1。 如果出现了连接超时，则令ssthresh=cwnd/2，然后重新执行慢开始 cwnd=1。** </p>
+<img src="/images/blog/tcp/congestion_control.jpg" alt="Image" style="zoom: 33%;" />
+
+<p><strong>快重传和快恢复：</strong></p>
+<p>接收方每次接收到报文段都应该对最后一个已收到的有序报文段进行确认。<strong>发送方如果收到三个重复确认</strong>，那么就可以知道下一个报文段丢失，此时执行<strong>快重传</strong>，立即重传下一个报文段。通知执行<strong>快恢复</strong>，<strong>令ssthresh=cwnd/2，cwnd=ssthresh，此时直接进入拥塞避免</strong>。</p>
+<img src="/images/blog/tcp/retransmission.jpg" alt="Image" style="zoom:50%;" />
+
+<p><strong>慢开始和快恢复的快慢指的是cwnd的设定值</strong>，而不是cwnd的增长速率（刚好相反）。慢开始cwnd设定为1，增长率为指数增长，而快恢复cwnd设定为ssthresh，增长率为线性增长。</p>
+<p><strong>拥塞控制是一种自适应的机制，用来推断当前带宽的大小，以及网路的拥挤程度。</strong></p>
+<p>应用层也可以实现这种自适应机制，比如说看视频的时候，是从模糊到越来越清晰，若网络有故障就会减低清晰度。这种应用于视频流的机制被称为“自适应比特流”。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
   </entry>
 </search>
