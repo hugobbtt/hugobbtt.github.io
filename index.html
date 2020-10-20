@@ -198,7 +198,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/10/20/%E5%B0%BE%E9%83%A8%E5%BC%80%E5%A7%8B%E7%9A%84%E9%93%BE%E8%A1%A8%E5%88%86%E7%BB%84%E7%BF%BB%E8%BD%AC/" class="post-title-link" itemprop="url">Untitled</a>
+            <a href="/2020/10/20/%E5%B0%BE%E9%83%A8%E5%BC%80%E5%A7%8B%E7%9A%84%E9%93%BE%E8%A1%A8%E5%88%86%E7%BB%84%E7%BF%BB%E8%BD%AC/" class="post-title-link" itemprop="url">尾部开始的链表分组翻转</a>
         </h2>
 
         <div class="post-meta">
@@ -207,8 +207,18 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-10-20 11:00:54" itemprop="dateCreated datePublished" datetime="2020-10-20T11:00:54+08:00">2020-10-20</time>
+              <time title="Created: 2020-10-20 11:01:06 / Modified: 11:04:07" itemprop="dateCreated datePublished" datetime="2020-10-20T11:01:06+08:00">2020-10-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">面试</span></a>
+                </span>
             </span>
 
           
@@ -291,6 +301,22 @@
 
               <time title="Created: 2020-08-21 01:58:47" itemprop="dateCreated datePublished" datetime="2020-08-21T01:58:47+08:00">2020-08-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-20 11:10:00" itemprop="dateModified" datetime="2020-10-20T11:10:00+08:00">2020-10-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
 
           
 
@@ -303,7 +329,48 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <p><strong>进程（process）和线程（thread）的区别：</strong></p>
+<ol>
+<li><strong>资源</strong>：进程是资源分配的基本单位，线程不拥有资源，线程可以访问隶属进程的资源。</li>
+<li><strong>调度</strong>：线程是独立调度的基本单位，在同一进程中，线程的切换不会引起进程的切换，从一个进程中的线程 切换到 另一个进程中的线程，会引起进程切换。</li>
+<li><strong>系统开销</strong>：创建和撤销进程，系统都要为其分配或回收资源，如内存空间，I/O设备等，所付出的开销远大于穿那创建和撤销线程时的开销。类似的，在进行进程切换时，涉及当前执行进程CPU环境的保存及新调度进程CPU环境的设置，而线程切换时只需保存和设置少量寄存器的内容，开销很小。<ol>
+<li>切换页目录以及使用新的地址空间（进程）</li>
+<li>切换内核栈（进程，线程）</li>
+<li>切换硬件上下文（进程，线程）</li>
+</ol>
+</li>
+<li><strong>通信方面</strong>：线程间的通信可以通过直接读写同一进程中数据进行通信，但是进程通信需要借助IPC。</li>
+<li><strong>安全</strong>：多线程是不安全的，当一个线程崩溃了，会导致整个进程也崩溃，即其他线程也挂了。而多进程不会，一个进程挂了，其他进程照样运行。</li>
+<li><strong>CPU密集型代码(各种循环处理、计算等等)：使用多进程。IO密集型代码(文件处理、网络爬虫等)：使用多线程。</strong></li>
+</ol>
+<p><strong>进程间通信 IPC(Inter-Process Communication)：</strong></p>
+<ul>
+<li><strong>管道</strong>：通过调用pipe函数创建，只支持半双工（单向交替传输），只能在父子进程中使用。</li>
+<li><strong>FIFO</strong>，也称为命名管道，去除了管道只能在父子进程中使用的限制。</li>
+<li><strong>消息队列</strong>：可以独立于读写进程存在，从而避免了FIFO中同步管道的打开和关闭时可能产生的困难。读进程可以根据消息类型有选择地接收消息。</li>
+<li><strong>信号量</strong>：一个计数器，用于为多个进程提供对共享数据对象的访问。</li>
+<li><strong>共享内存</strong>：允许多个进程共享一个给定的存储区，因为数据不需要在进程之间复制，所以这是最快的一种IPC。需要使用信号量来同步对共享存储的访问。多个进程可以将同一个文件映射到他们的地址空间从而实现共享内存。</li>
+<li><strong>Socket</strong>：可以用于不同机器间的IPC</li>
+</ul>
+<p><strong>线程间通信，主要目的是用于线程同步，没有像进程通信那样的数据交换机制：</strong></p>
+<ul>
+<li><strong>锁机制</strong><ul>
+<li>互斥锁：确保同一时间只能有一个线程访问共享资源。</li>
+<li>读写锁：读模式共享，写模式互斥。</li>
+<li>条件变量：以原子的方式阻塞进程，直到某个特定条件为真为止。对条件的测试是在互斥锁的保护下进行的。条件变量始终与互斥锁一起使用。</li>
+<li>自旋锁：上锁受阻时线程不阻塞而是在循环中轮询查看能否获得该锁，没有线程的切换因而没有切换的开销，不过对CPU的霸占会导致CPU资源的浪费。所以自旋锁适用于并行结构（多个处理器）或者锁被持有时间短而不希望在线程切换产生开销的情况。</li>
+</ul>
+</li>
+<li><strong>信号量机制</strong>： 信号量实际上是一个非负的整数计数器，用来实现对公共资源的控制。<ul>
+<li>在公共资源增加的时候，信号量就增加；</li>
+<li>公共资源减少的时候，信号量就减少；</li>
+<li>只有当信号量的值大于0的时候，才能访问信号量所代表的公共资源。</li>
+</ul>
+</li>
+<li><strong>volatile全局变量</strong></li>
+<li><strong>wait/notify</strong></li>
+</ul>
+
       
     </div>
 
@@ -576,7 +643,7 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
   </nav>
