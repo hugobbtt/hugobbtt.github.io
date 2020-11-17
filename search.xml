@@ -11,7 +11,10 @@
   <entry>
     <title>有关TCP的常见问题</title>
     <url>/2020/08/20/%E6%9C%89%E5%85%B3TCP%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h1><h2 id="三次挥手的目的"><a href="#三次挥手的目的" class="headerlink" title="三次挥手的目的"></a>三次挥手的目的</h2><ul>
+    <content><![CDATA[<p>面试题常客，考察计算机网路知识。</p>
+<a id="more"></a>
+
+<h1 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h1><h2 id="三次挥手的目的"><a href="#三次挥手的目的" class="headerlink" title="三次挥手的目的"></a>三次挥手的目的</h2><ul>
 <li>建立可靠的通信信道，让双方都确定自己与对方的发送和接收是正常的。</li>
 <li>防止失效的连接请求到达服务器，让服务器错误打开连接。</li>
 </ul>
@@ -68,7 +71,10 @@
   <entry>
     <title>进程与线程</title>
     <url>/2020/08/21/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/</url>
-    <content><![CDATA[<h2 id="进程（process）和线程（thread）的区别："><a href="#进程（process）和线程（thread）的区别：" class="headerlink" title="进程（process）和线程（thread）的区别："></a>进程（process）和线程（thread）的区别：</h2><ol>
+    <content><![CDATA[<p>面试题常客，探讨进程，线程，协程的关系，学好操作系统走遍天下。</p>
+<a id="more"></a>
+
+<h2 id="进程（process）和线程（thread）的区别："><a href="#进程（process）和线程（thread）的区别：" class="headerlink" title="进程（process）和线程（thread）的区别："></a>进程（process）和线程（thread）的区别：</h2><ol>
 <li><strong>资源</strong>：进程是资源分配的基本单位，线程不拥有资源，线程可以访问隶属进程的资源。</li>
 <li><strong>调度</strong>：线程是独立调度的基本单位，在同一进程中，线程的切换不会引起进程的切换，从一个进程中的线程 切换到 另一个进程中的线程，会引起进程切换。</li>
 <li><strong>系统开销</strong>：创建和撤销进程，系统都要为其分配或回收资源，如内存空间，I/O设备等，所付出的开销远大于穿那创建和撤销线程时的开销。类似的，在进行进程切换时，涉及当前执行进程CPU环境的保存及新调度进程CPU环境的设置，而线程切换时只需保存和设置少量寄存器的内容，开销很小。<ol>
@@ -115,7 +121,11 @@
   <entry>
     <title>尾部开始的链表分组翻转</title>
     <url>/2020/10/20/%E5%B0%BE%E9%83%A8%E5%BC%80%E5%A7%8B%E7%9A%84%E9%93%BE%E8%A1%A8%E5%88%86%E7%BB%84%E7%BF%BB%E8%BD%AC/</url>
-    <content><![CDATA[<h2 id="尾部开始的链表分组翻转"><a href="#尾部开始的链表分组翻转" class="headerlink" title="尾部开始的链表分组翻转"></a>尾部开始的链表分组翻转</h2><p>这道题目来自于字节跳动的面试题。</p>
+    <content><![CDATA[<p>字节跳动的一个面试题，涉及到翻转链表，以及将链表分组翻转。</p>
+<a id="more"></a>
+
+
+<h2 id="尾部开始的链表分组翻转"><a href="#尾部开始的链表分组翻转" class="headerlink" title="尾部开始的链表分组翻转"></a>尾部开始的链表分组翻转</h2><p>这道题目来自于字节跳动的面试题。</p>
 <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>要求从后往前以k个为一组进行翻转。</p>
 <p>例子，1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6-&gt;7-&gt;8, k = 3,</p>
 <p>从后往前以k=3为一组，</p>

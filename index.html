@@ -207,10 +207,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-10-20 11:19:29 / Modified: 11:26:27" itemprop="dateCreated datePublished" datetime="2020-10-20T11:19:29+08:00">2020-10-20</time>
+              <time title="Created: 2020-10-20 11:19:29" itemprop="dateCreated datePublished" datetime="2020-10-20T11:19:29+08:00">2020-10-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-11-17 18:04:27" itemprop="dateModified" datetime="2020-11-17T18:04:27+08:00">2020-11-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -232,29 +238,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="尾部开始的链表分组翻转"><a href="#尾部开始的链表分组翻转" class="headerlink" title="尾部开始的链表分组翻转"></a>尾部开始的链表分组翻转</h2><p>这道题目来自于字节跳动的面试题。</p>
-<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>要求从后往前以k个为一组进行翻转。</p>
-<p>例子，1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6-&gt;7-&gt;8, k = 3,</p>
-<p>从后往前以k=3为一组，</p>
-<p>6-&gt;7-&gt;8 为一组翻转为8-&gt;7-&gt;6. 3-&gt;4-&gt;5为一组翻转为5-&gt;4-&gt;3. 1-&gt;2只有2个nodes少于k=3个，不翻转。</p>
-<p>最后返回：1-&gt;2-&gt;5-&gt;4-&gt;3-&gt;8-&gt;7-&gt;6</p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>这里的思路跟从前往后以k个为一组进行翻转类似，可以进行预处理：</p>
-<ol>
-<li>翻转链表</li>
-<li>对翻转后的链表进行从前往后以k为一组翻转。</li>
-<li>翻转步骤2中得到的链表。</li>
-</ol>
-<p>例子：1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6-&gt;7-&gt;8, k = 3</p>
-<ol>
-<li>翻转链表得到：8-&gt;7-&gt;6-&gt;5-&gt;4-&gt;3-&gt;2-&gt;1</li>
-<li>以k为一组翻转：6-&gt;7-&gt;8-&gt;3-&gt;4-&gt;5-&gt;2-&gt;1</li>
-<li>翻转步骤#2链表：1-&gt;2-&gt;5-&gt;4-&gt;3-&gt;8-&gt;7-&gt;6</li>
-</ol>
-<h3 id="python实现"><a href="#python实现" class="headerlink" title="python实现"></a>python实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">enhancedReverseKGroup</span>(<span class="params">self, head, k</span>):</span></span><br><span class="line">        reversedList = self.reverseList(head)</span><br><span class="line">        reversedKGroup = self.reverseKGroup(reversedList, k)</span><br><span class="line">        <span class="keyword">return</span> self.reverseList(reversedKGroup)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reverseList</span>(<span class="params">self, head</span>):</span></span><br><span class="line">        prev = <span class="literal">None</span></span><br><span class="line">        curr = head</span><br><span class="line">        <span class="keyword">while</span> curr:</span><br><span class="line">            tmp = curr.next</span><br><span class="line">            curr.next = prev</span><br><span class="line">            prev = curr</span><br><span class="line">            curr = tmp</span><br><span class="line">        <span class="keyword">return</span> prev</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reverseKGroup</span>(<span class="params">self, head, k</span>):</span></span><br><span class="line">        dummy = jump = ListNode(<span class="literal">None</span>)</span><br><span class="line">        dummy.next = l = r = head</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            count = <span class="number">0</span></span><br><span class="line">            <span class="keyword">while</span> r <span class="keyword">and</span> count &lt; k:</span><br><span class="line">                r = r.next</span><br><span class="line">                count += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> count == k:</span><br><span class="line">                <span class="comment"># 将每组翻转</span></span><br><span class="line">                prev = r</span><br><span class="line">                curr = l</span><br><span class="line">                <span class="keyword">for</span> _ <span class="keyword">in</span> range(k):</span><br><span class="line">                    tmp = curr.next</span><br><span class="line">                    curr.next = prev</span><br><span class="line">                    prev = curr</span><br><span class="line">                    curr = tmp</span><br><span class="line">                <span class="comment"># 第一次会把dummy.next 也赋给prev</span></span><br><span class="line">                jump.next = prev</span><br><span class="line">                jump = l</span><br><span class="line">                l = r</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> dummy.next</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    a = ListNode(<span class="number">1</span>)</span><br><span class="line">    a.next = ListNode(<span class="number">2</span>)</span><br><span class="line">    a.next.next = ListNode(<span class="number">3</span>)</span><br><span class="line">    a.next.next.next = ListNode(<span class="number">4</span>)</span><br><span class="line">    a.next.next.next.next = ListNode(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">    ans = Solution().enhancedReverseKGroup(a, <span class="number">3</span>)</span><br><span class="line">    cache = []</span><br><span class="line">    <span class="keyword">while</span> ans:</span><br><span class="line">        cache.append(ans.val)</span><br><span class="line">        ans = ans.next</span><br><span class="line">    <span class="comment"># 打印结果是[1, 2, 5, 4, 3]</span></span><br><span class="line">    print(cache)</span><br></pre></td></tr></table></figure>
-
-<p><em>Reference:</em></p>
-<p>一文搞懂《链表反转》 <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1513176">https://cloud.tencent.com/developer/article/1513176</a><br>LeetCode 25. Reverse Nodes in k-Group <a target="_blank" rel="noopener" href="https://leetcode.com/problems/reverse-nodes-in-k-group/">https://leetcode.com/problems/reverse-nodes-in-k-group/</a><br>LeetCode 206. Reverse Linked List <a target="_blank" rel="noopener" href="https://leetcode.com/problems/reverse-linked-list/">https://leetcode.com/problems/reverse-linked-list/</a></p>
-
+          <p>字节跳动的一个面试题，涉及到翻转链表，以及将链表分组翻转。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/10/20/%E5%B0%BE%E9%83%A8%E5%BC%80%E5%A7%8B%E7%9A%84%E9%93%BE%E8%A1%A8%E5%88%86%E7%BB%84%E7%BF%BB%E8%BD%AC/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -304,7 +296,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-10-20 11:25:52" itemprop="dateModified" datetime="2020-10-20T11:25:52+08:00">2020-10-20</time>
+                <time title="Modified: 2020-11-17 18:05:47" itemprop="dateModified" datetime="2020-11-17T18:05:47+08:00">2020-11-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -327,46 +319,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="进程（process）和线程（thread）的区别："><a href="#进程（process）和线程（thread）的区别：" class="headerlink" title="进程（process）和线程（thread）的区别："></a>进程（process）和线程（thread）的区别：</h2><ol>
-<li><strong>资源</strong>：进程是资源分配的基本单位，线程不拥有资源，线程可以访问隶属进程的资源。</li>
-<li><strong>调度</strong>：线程是独立调度的基本单位，在同一进程中，线程的切换不会引起进程的切换，从一个进程中的线程 切换到 另一个进程中的线程，会引起进程切换。</li>
-<li><strong>系统开销</strong>：创建和撤销进程，系统都要为其分配或回收资源，如内存空间，I/O设备等，所付出的开销远大于穿那创建和撤销线程时的开销。类似的，在进行进程切换时，涉及当前执行进程CPU环境的保存及新调度进程CPU环境的设置，而线程切换时只需保存和设置少量寄存器的内容，开销很小。<ol>
-<li>切换页目录以及使用新的地址空间（进程）</li>
-<li>切换内核栈（进程，线程）</li>
-<li>切换硬件上下文（进程，线程）</li>
-</ol>
-</li>
-<li><strong>通信方面</strong>：线程间的通信可以通过直接读写同一进程中数据进行通信，但是进程通信需要借助IPC。</li>
-<li><strong>安全</strong>：多线程是不安全的，当一个线程崩溃了，会导致整个进程也崩溃，即其他线程也挂了。而多进程不会，一个进程挂了，其他进程照样运行。</li>
-<li><strong>CPU密集型代码(各种循环处理、计算等等)：使用多进程。IO密集型代码(文件处理、网络爬虫等)：使用多线程。</strong></li>
-</ol>
-<h2 id="进程间通信-IPC-Inter-Process-Communication-："><a href="#进程间通信-IPC-Inter-Process-Communication-：" class="headerlink" title="进程间通信 IPC(Inter-Process Communication)："></a>进程间通信 IPC(Inter-Process Communication)：</h2><ul>
-<li><strong>管道</strong>：通过调用pipe函数创建，只支持半双工（单向交替传输），只能在父子进程中使用。</li>
-<li><strong>FIFO</strong>，也称为命名管道，去除了管道只能在父子进程中使用的限制。</li>
-<li><strong>消息队列</strong>：可以独立于读写进程存在，从而避免了FIFO中同步管道的打开和关闭时可能产生的困难。读进程可以根据消息类型有选择地接收消息。</li>
-<li><strong>信号量</strong>：一个计数器，用于为多个进程提供对共享数据对象的访问。</li>
-<li><strong>共享内存</strong>：允许多个进程共享一个给定的存储区，因为数据不需要在进程之间复制，所以这是最快的一种IPC。需要使用信号量来同步对共享存储的访问。多个进程可以将同一个文件映射到他们的地址空间从而实现共享内存。</li>
-<li><strong>Socket</strong>：可以用于不同机器间的IPC</li>
-</ul>
-<h2 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h2><p>主要目的是用于线程同步，没有像进程通信那样的数据交换机制</p>
-<ul>
-<li><strong>锁机制</strong><ul>
-<li>互斥锁：确保同一时间只能有一个线程访问共享资源。</li>
-<li>读写锁：读模式共享，写模式互斥。</li>
-<li>条件变量：以原子的方式阻塞进程，直到某个特定条件为真为止。对条件的测试是在互斥锁的保护下进行的。条件变量始终与互斥锁一起使用。</li>
-<li>自旋锁：上锁受阻时线程不阻塞而是在循环中轮询查看能否获得该锁，没有线程的切换因而没有切换的开销，不过对CPU的霸占会导致CPU资源的浪费。所以自旋锁适用于并行结构（多个处理器）或者锁被持有时间短而不希望在线程切换产生开销的情况。</li>
-</ul>
-</li>
-<li><strong>信号量机制</strong>： 信号量实际上是一个非负的整数计数器，用来实现对公共资源的控制。<ul>
-<li>在公共资源增加的时候，信号量就增加；</li>
-<li>公共资源减少的时候，信号量就减少；</li>
-<li>只有当信号量的值大于0的时候，才能访问信号量所代表的公共资源。</li>
-</ul>
-</li>
-<li><strong>volatile全局变量</strong></li>
-<li><strong>wait/notify</strong></li>
-</ul>
-
+          <p>面试题常客，探讨进程，线程，协程的关系，学好操作系统走遍天下。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/21/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -416,7 +377,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-21 01:46:24" itemprop="dateModified" datetime="2020-08-21T01:46:24+08:00">2020-08-21</time>
+                <time title="Modified: 2020-11-17 18:05:26" itemprop="dateModified" datetime="2020-11-17T18:05:26+08:00">2020-11-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -439,56 +400,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h1><h2 id="三次挥手的目的"><a href="#三次挥手的目的" class="headerlink" title="三次挥手的目的"></a>三次挥手的目的</h2><ul>
-<li>建立可靠的通信信道，让双方都确定自己与对方的发送和接收是正常的。</li>
-<li>防止失效的连接请求到达服务器，让服务器错误打开连接。</li>
-</ul>
-<h2 id="三次挥手的过程"><a href="#三次挥手的过程" class="headerlink" title="三次挥手的过程"></a>三次挥手的过程</h2><img src="/images/blog/tcp/handshake.jpg" alt="Image" style="zoom: 50%;" />
-
-<ol>
-<li><p>第一次握手：服务端确认客户端的发送功能，自己的接收功能。SYN=1，初始序号SEQ=x</p>
-</li>
-<li><p>第二次握手：客户端确认自己的发送、接收功能，服务端的发送、接收功能。SYN=1，确认号ACK=x+1，同时也选择一个初始序号SEQ=y</p>
-</li>
-<li><p>第三次握手：服务端确认自己的发送功能，客户端的接收功能。确认号ACK=y+1，序号为SEQ=x+1</p>
-</li>
-</ol>
-<p>为什么要传回SYN：接收端传回发送端所发送的SYN是为了告诉发送端，我接受到的信息确实是你所发送的信号，而不是别人的。</p>
-<h1 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h1><img src="/images/blog/tcp/wave.jpg" alt="Image" style="zoom: 67%;" />
-
-<ul>
-<li>客户端-发送连接释放报文FIN，用来关闭客户端到服务器的数据传送，FIN=1，初始序号SEQ=u</li>
-<li>服务器-收到这个 FIN，它发回一个确认ACK，此时<strong>TCP处于半关闭状态（CLOSE-WAIT），B能向A发数据但A不能向B发数据</strong>。确认号ACK=u+1，同时也初始一个序号SEQ=v</li>
-<li>当服务器不再需要发送数据时，发送释放连接报文FIN。FIN=1，ACK=u+1，序号SEQ=w</li>
-<li>客户端-发回 ACK 报文确认，进入<strong>TIME-WAIT状态，等待2倍的MSL（最大报文存活时间 Maximum Segment Lifetime）后释放连接</strong>。确认号ACK=w+1，序号u+1</li>
-<li>服务器收到ACK后释放连接。</li>
-</ul>
-<p>为什么要有TIME-WAIT状态，而不是直接进入CLOSED状态：</p>
-<ul>
-<li>确保最后一个确认报文ACK能够到达服务端，如果服务端没有收到客户端的ACK报文，最需要重新发送连接释放请求报文FIN，即重新来过。客户端等待的2倍MSL时间就是为了处理这种情况的发生。</li>
-<li>等待时间是为了让本次连接持续时间内产生的所有报文都从网络中消失，使得下一次新的连接不会出现旧的连接请求报文SYN，从而错误打开连接。</li>
-</ul>
-<h1 id="TCP流量控制-Flow-Control"><a href="#TCP流量控制-Flow-Control" class="headerlink" title="TCP流量控制(Flow Control)"></a>TCP流量控制(Flow Control)</h1><p> <strong>流量控制是为了控制发送方发送速率，保证接收方来得及接收</strong>。</p>
-<ul>
-<li>TCP连接的每一方都有固定大小的缓冲空间，TCP的接收端只允许发送端发送接收端缓冲区能够接纳的数据。当接收方来不及处理发送方的数据，能提示发送方降低发送的速率，防止包丢失。</li>
-<li>接收方发送的<strong>确认报文中的窗口字段</strong>可以用来控制发送方窗口的大小，从而影响发送方的发送速率。如果将窗口字段设置成0，则发送方不能发送数据。接收窗口只会对窗口内最后一个按序到达的字节进行确认，例如接收窗口已经收到的字节为 {31, 34, 35}，其中 {31} 按序到达，而 {34, 35} 就不是，因此只对字节 31 进行确认。发送方得到一个字节的确认之后，就知道这个字节之前的所有字节都已经被接收。</li>
-</ul>
-<img src="/images/blog/tcp/slide_window.jpg" alt="Image" style="zoom: 67%;" />
-
-
-
-<h1 id="TCP拥塞控制-Congestion-Control"><a href="#TCP拥塞控制-Congestion-Control" class="headerlink" title="TCP拥塞控制(Congestion Control)"></a>TCP拥塞控制(Congestion Control)</h1><p><strong>慢启动（slow start）和拥塞避免（Congestion Avoidance）：</strong></p>
-<p>发动的最初执行<strong>慢开始</strong>，<strong>令拥塞窗口cwnd=1 (congestion window)**，发送方只能发送1个报文段；</strong>当收到ACK确认后，将cwnd加倍<strong>，因此之后发送方能够发送的报文段数量为2,4,8,…..由于指数增长的非常快，网络拥塞的可能性也就很高。设置一个</strong>慢开始门限ssthresh，当swnd&gt;=ssthresh时，进入拥塞避免，每个轮次只将cwnd加1。 如果出现了连接超时，则令ssthresh=cwnd/2，然后重新执行慢开始 cwnd=1。** </p>
-<img src="/images/blog/tcp/congestion_control.jpg" alt="Image" style="zoom: 33%;" />
-
-<p><strong>快重传和快恢复：</strong></p>
-<p>接收方每次接收到报文段都应该对最后一个已收到的有序报文段进行确认。<strong>发送方如果收到三个重复确认</strong>，那么就可以知道下一个报文段丢失，此时执行<strong>快重传</strong>，立即重传下一个报文段。通知执行<strong>快恢复</strong>，<strong>令ssthresh=cwnd/2，cwnd=ssthresh，此时直接进入拥塞避免</strong>。</p>
-<img src="/images/blog/tcp/retransmission.jpg" alt="Image" style="zoom:50%;" />
-
-<p><strong>慢开始和快恢复的快慢指的是cwnd的设定值</strong>，而不是cwnd的增长速率（刚好相反）。慢开始cwnd设定为1，增长率为指数增长，而快恢复cwnd设定为ssthresh，增长率为线性增长。</p>
-<p><strong>拥塞控制是一种自适应的机制，用来推断当前带宽的大小，以及网路的拥挤程度。</strong></p>
-<p>应用层也可以实现这种自适应机制，比如说看视频的时候，是从模糊到越来越清晰，若网络有故障就会减低清晰度。这种应用于视频流的机制被称为“自适应比特流”。</p>
-
+          <p>面试题常客，考察计算机网路知识。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/20/%E6%9C%89%E5%85%B3TCP%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
